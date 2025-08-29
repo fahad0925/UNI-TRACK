@@ -1,5 +1,6 @@
 import React from "react";
 import { dowInfo, fastInfo, univerisities } from "../constants/constant";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -23,7 +24,8 @@ const page = () => {
 
           <div className="border border-gray-200 p-4 my-[10vh] rounded-2xl">
             <h1 className="text-4xl font-bold text-slate-100 text-center mb-4 tracking-wide">
-              🩺 Why Choose Dow University of Health Sciences (DUHS)?
+              💻 Why Choose FAST National University of Computer & Emerging
+              Sciences?
             </h1>
             <h1 className="text-2xl font-bold text-slate-100 mb-4 tracking-tighter">
               FAST University is regarded as one of the top institutions for
@@ -122,9 +124,11 @@ const page = () => {
             </div>
           </div>
           <div className="flex justify-center py-20">
-            <button className="px-20 py-5 rounded-3xl border-2 border-blue-600 text-blue-600 font-semibold hover:bg-purple-600 hover:text-white transition duration-300">
-              Try Admission Test
-            </button>
+            <Link href="/FAST/QUIZ">
+              <button className="px-20 py-5 rounded-3xl border-2 border-blue-600 text-blue-600 font-semibold hover:bg-purple-600 hover:text-white transition duration-300">
+                Try Admission Test
+              </button>
+            </Link>
           </div>
         </div>
       </div>

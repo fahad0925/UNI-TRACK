@@ -66,11 +66,31 @@ export const univerisities = [
       "Minimum passing marks ~50%",
     ], // based on general guidance
   },
+
   {
-    name: ["NED University of Engineering & Technology", "(NED)"],
-    img: "/NED.jpg",
-    text: "Prepare for one of top engineering universities. The NED test evaluates your skills in Mathematics, Physics, English, and Logical Reasoning, ensuring you are ready for an engineering career.",
-    route: "/NED",
+    name: ["National University of Sciences & Technology", "(NUST Karachi)"],
+    img: "/NUST.jpg",
+    text: "Get ready for one of Pakistan’s top universities. The NUST NET for Computer Science and Engineering assesses your knowledge in Mathematics, Physics, Computer Science/Chemistry, English, and Intelligence to ensure you are prepared for a future in technology and innovation.",
+    route: "/NUST",
+
+    questions: 200,
+    time: "180 min",
+    weightage: "100%",
+    negative: "None",
+
+    sections: [
+      "Mathematics (40%)",
+      " ",
+      "Physics (30%)",
+      " ",
+      "Chemistry / Computer Science (15%)",
+      " ",
+      "English (10%)",
+      " ",
+      "Intelligence / Aptitude (5%)",
+    ],
+
+    note: "Duration 3 hours, 200 MCQs, no negative marking", // additional context
   },
 ];
 export const fastInfo = [
@@ -167,4 +187,42 @@ export const dowInfo = [
     negative: "None",
   },
   // Added estimated DUHS entrance test data:
+];
+
+export const nustInfo = [
+  {
+    name: "Mathematics",
+    questions: 80, // 40% of 200
+    time: "180 min",
+    weightage: "40%",
+    negative: "0", // No negative marking in NUST NET
+  },
+  {
+    name: "Physics",
+    questions: 60, // 30% of 200
+    time: "180 min",
+    weightage: "30%",
+    negative: "0",
+  },
+  {
+    name: "Chemistry / Computer Science",
+    questions: 30, // 15% of 200
+    time: "180 min",
+    weightage: "15%",
+    negative: "0",
+  },
+  {
+    name: "English",
+    questions: 20, // 10% of 200
+    time: "180 min",
+    weightage: "10%",
+    negative: "0",
+  },
+  {
+    name: "Intelligence (Aptitude)",
+    questions: 10, // 5% of 200
+    time: "180 min",
+    weightage: "5%",
+    negative: "0",
+  },
 ];
