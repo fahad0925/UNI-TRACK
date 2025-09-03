@@ -47,9 +47,9 @@ const mainPage = () => {
               <h1 className="text-sm font-bold mb-2 text-gray-300">
                 {data.text}
               </h1>
-              <div className="flex justify-between">
+              <div className="flex justify-between p-[7%]">
                 <Link href={data.route}>
-                  <button className="rounded-xl text-white px-4 py-2 font-medium bg-white/10 backdrop-blur-sm border border-white/70 hover:bg-white/20 transition">
+                  <button className="rounded-xl m-5 absolute bottom-0 right-0 text-white px-4 py-2 font-medium bg-white/10 backdrop-blur-sm border border-white/70 hover:bg-white/20 transition">
                     More Details
                   </button>
                 </Link>

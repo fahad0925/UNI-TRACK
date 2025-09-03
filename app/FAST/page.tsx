@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <div className="">
-        <div className="bg-gradient-to-r  p-3  sm:p-10  from-blue-900 via-blue-950 to-black mb-4 ">
+        <div className="bg-gradient-to-r  p-3  sm:p-10  from-cyan-700 via-cyan-950 to-black mb-4 ">
           <div className="justify-evenly flex gap-13 sm:gap-0 flex-col  lg:flex-row">
             <div className=" w-[100%] lg:w-[40%] flex justify-center items-center">
               <h1 className=" text-4xl sm:text-6xl mt-15 sm:mt-0 w-[100%] lg:w-[65%] ">
@@ -45,7 +45,7 @@ const page = () => {
         {/* test information */}
         {/* purple end */}
 
-        <div className="bg-gradient-to-b sm:p-10 from-blue-900 via-blue-950 to-black">
+        <div className="bg-gradient-to-b sm:p-10 rom-cyan-700 via-cyan-950 to-black">
           <div className="border border-gray-200 p-4 my-[10vh] rounded-2xl">
             <div>
               <h1 className="text-4xl font-bold text-slate-100 text-center mb-4 tracking-wide">
@@ -125,7 +125,7 @@ const page = () => {
           </div>
           <div className="flex justify-center py-20">
             <Link href="/FAST/QUIZ">
-              <button className="px-20 py-5 rounded-3xl border-2 border-blue-600 text-blue-600 font-semibold hover:bg-purple-600 hover:text-white transition duration-300">
+              <button className="px-20 py-5 rounded-3xl border-2 border-cyan-600 text-cyan-600 font-semibold hover:bg-cyan-600 hover:text-white transition duration-300">
                 Try Admission Test
               </button>
             </Link>
