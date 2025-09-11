@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { fetchQuestionsBySubject } from "@/app/constants/getQuestions";
 import LightRays from "@/app/componenets/LightRays";
 import { useLocalUniSubject } from "@/app/constants/UseLocalUniSubject";
-import ExamLoading from "@/app/ExamLoading";
 import TopExamLoader from "@/app/ExamLoading";
 
 interface QuestionItselfType {
@@ -133,9 +132,19 @@ export default function QuizPage() {
     setSelected(null);
   }, [currentIndex, currentSubject]);
 
-  // Timer countdown
+  // ✅ Timer countdown + auto-submit on time over
   useEffect(() => {
-    if (showResult || timeLeft <= 0) return;
+    if (showResult) return;
+    if (timeLeft <= 0 && questions.length > 0) {
+      if (currentSubject) {
+        setAllResults((prev) => [
+          ...prev,
+          { subject: currentSubject, score, total: questions.length },
+        ]);
+      }
+      setShowResult(true);
+      return;
+    }
     const t = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(t);
   }, [timeLeft, showResult]);
@@ -195,16 +204,7 @@ export default function QuizPage() {
   };
 
   // Loading screen
-  if (loading)
-    return (
-      <TopExamLoader />
-
-      // <div className="bg-gradient-to-r from-cyan-700 via-cyan-950 to-black min-h-screen flex justify-center items-center">
-      //   <p className="text-center text-white text-xl font-semibold animate-pulse">
-      //     Generating Questions for {currentSubject || "Subject"}...
-      //   </p>
-      // </div>
-    );
+  if (loading) return <TopExamLoader />;
 
   // Initial subject selection
   if (!selectedSubject) {
@@ -283,7 +283,7 @@ export default function QuizPage() {
         />
       </div>
 
-      <div className="p-10 min-h-screen relative flex flex-col gap-5 justify-center bg-gradient-to-r from-cyan-950 via-cyan-950 to-black">
+      <div className=" py-10 px-4  sm:p-10 min-h-screen relative flex flex-col gap-5 justify-center bg-gradient-to-r from-cyan-950 via-cyan-950 to-black">
         {/* Subject Title + Timer */}
         <div className="flex flex-col  justify-center items-center mb-4">
           <h1 className="text-3xl sm:text-5xl font-bold text-gray-100">
@@ -305,7 +305,7 @@ export default function QuizPage() {
                 {currentQuestion?.question}
               </h1>
 
-              <div className="grid gap-3">
+              <div className="grid gap-3 w-full">
                 {currentQuestion?.options.map((option, i) => (
                   <button
                     key={`${currentSubject ?? selectedSubject}-${
@@ -327,10 +327,11 @@ export default function QuizPage() {
                   </button>
                 ))}
 
+                {/* ✅ Button responsive fix */}
                 <button
                   disabled={currentIndex >= questions.length - 1}
                   onClick={handleSkip}
-                  className="p-2 sm:p-3 rounded-2xl text-cyan-300 px-[13vh] sm:px-[20vh] border border-cyan-200 hover:bg-cyan-950"
+                  className="p-2 sm:p-3 rounded-2xl text-cyan-300 w-full border border-cyan-200 hover:bg-cyan-950"
                 >
                   SKIP
                 </button>

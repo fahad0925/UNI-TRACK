@@ -110,12 +110,13 @@ export async function POST(req: Request) {
       /all subject/i.test(subject);
 
     const baseDistribution = {
-      Physics: 60,
-      Biology: 40,
+      Physics: 30,
+      Biology: 30,
       Chemistry: 30,
-      English: 20,
-      Analytical: 20,
-      Mathematics: 40,
+      English: 30,
+      Analytical: 30,
+      Mathematics: 30,
+      IQ: 30,
     };
 
     const TOTAL_DEFAULT_ALL = 20;
