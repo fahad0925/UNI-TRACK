@@ -1,21 +1,25 @@
+"use client";
+
 import React from "react";
 import { dowInfo, fastInfo, univerisities } from "../constants/constant";
 import Link from "next/link";
+import { useLocalUniSubject } from "../constants/UseLocalUniSubject";
 
 const page = () => {
+  const [uniSubject, setUniSubject] = useLocalUniSubject();
   return (
     <>
       <div className="">
-        <div className="bg-gradient-to-r  p-3  sm:p-10  from-cyan-700 via-cyan-950 to-black mb-4 ">
+        <div className="bg-gradient-to-r  p-3  sm:p-10  from-cyan-700 via-cyan-800 to-cyan-950 mb-0.5 ">
           <div className="justify-evenly flex gap-13 sm:gap-0 flex-col  lg:flex-row">
-            <div className=" w-[100%] lg:w-[40%] flex justify-center items-center">
-              <h1 className=" text-4xl sm:text-6xl mt-15 sm:mt-0 w-[100%] lg:w-[65%] ">
+            <div className=" w-[100%]   lg:w-[40%] flex justify-center items-center">
+              <h1 className=" text-4xl sm:text-4xl  font-bold lg:text-4xl 2xl:text-6xl mt-15 sm:mt-0 w-[100%]  xl:w-[75%] ">
                 {univerisities[1].name}
               </h1>
             </div>
-            <div>
+            <div className="sm:mt-10">
               <img
-                className="border-4 border-black rounded-xl"
+                className="border-4 border-black rounded-xl w-full lg:w-[95%]"
                 src={univerisities[1].img}
                 alt="FAST"
               />
@@ -27,7 +31,7 @@ const page = () => {
               💻 Why Choose FAST National University of Computer & Emerging
               Sciences?
             </h1>
-            <h1 className="text-2xl font-bold text-slate-100 mb-4 tracking-tighter">
+            <h1 className="text-2xl font-stretch-50%  text-slate-100 mb-4 tracking-tighter">
               FAST University is regarded as one of the top institutions for
               computer science, software engineering, and emerging technologies
               in Pakistan. Known for its rigorous academic standards and highly
@@ -45,41 +49,64 @@ const page = () => {
         {/* test information */}
         {/* purple end */}
 
-        <div className="bg-gradient-to-b sm:p-10 rom-cyan-700 via-cyan-950 to-black">
-          <div className="border border-gray-200 p-4 my-[10vh] rounded-2xl">
+        <div className="bg-gradient-to-b sm:p-10 from-cyan-700 via-cyan-950 to-black">
+          <div className="border border-gray-200 p-4 sm:my-[10vh] rounded-2xl">
             <div>
               <h1 className="text-4xl font-bold text-slate-100 text-center mb-4 tracking-wide">
                 Test Information
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Total Duration: {univerisities[1].time}
+              <h1 className="  text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold text-2xl  md:text-3xl">
+                  {" "}
+                  Total Duration:
+                </span>{" "}
+                {univerisities[1].time}
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Question: {univerisities[1].questions}
+              <h1 className="text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold text-2xl  md:text-3xl ">
+                  {" "}
+                  Question:{" "}
+                </span>{" "}
+                {univerisities[1].questions}
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Negative: {univerisities[1].negative}
+              <h1 className="text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold text-2xl  md:text-3xl ">
+                  {" "}
+                  Negative:{" "}
+                </span>
+                {univerisities[1].negative}
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Calculator: {univerisities[1].calculator}
+              <h1 className="text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold text-2xl  md:text-3xl ">
+                  {" "}
+                  Calculator:
+                </span>{" "}
+                {univerisities[1].calculator}
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Sections: {univerisities[1].sections}
+              <h1 className="text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold  text-2xl  md:text-3xl">
+                  {" "}
+                  Sections:{" "}
+                </span>
+                {univerisities[1].sections}
               </h1>
-              <h1 className="text-3xl font-bold text-slate-100 mb-4 tracking-tighter">
-                Note: {univerisities[1].note}
+              <h1 className="text-2xl font-stretch-50% text-slate-100 mb-4 tracking-tighter">
+                <span className="font-semibold  text-2xl  md:text-3xl">
+                  {" "}
+                  Note:
+                </span>{" "}
+                {univerisities[1].note}
               </h1>
             </div>
           </div>
 
           {/* section-wise */}
-          <div>
+          <h1 className="text-4xl font-bold text-slate-100 text-center  mt-20 sm:mt-0 mb-4 pb-10 tracking-wide">
+            Section-wise breakdown
+          </h1>
+          <div className="overflow-x-auto">
             <div className="p-4  rounded-2xl">
-              <h1 className="text-4xl font-bold text-slate-100 text-center mb-4 pb-10 tracking-wide">
-                Section-wise breakdown
-              </h1>
-
-              <table className="table-auto border-collapse border border-gray-400 w-full text-center">
+              <table className="table-auto border-collapse border border-gray-400 w-full text-center min-w-full  ">
                 <thead>
                   <tr>
                     <th className="border-2 border-gray-400 sm:px-4 sm:py-2 px-2">
@@ -125,8 +152,11 @@ const page = () => {
           </div>
           <div className="flex justify-center py-20">
             <Link href="/FAST/QUIZ">
-              <button className="px-20 py-5 rounded-3xl border-2 border-cyan-600 text-cyan-600 font-semibold hover:bg-cyan-600 hover:text-white transition duration-300">
-                Try Admission Test
+              <button
+                onClick={() => setUniSubject(0)}
+                className="sm:px-20 sm:py-5 px-15 py-4 rounded-3xl border-2 border-cyan-600 text-cyan-600 font-semibold hover:bg-cyan-600 hover:text-white transition duration-300"
+              >
+                Take the Intellect Trial🧠
               </button>
             </Link>
           </div>
