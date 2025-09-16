@@ -1,10 +1,18 @@
 // app/api/generate/route.ts
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { questions as storedQuestions } from "@/app/constants/questions"; // ✅
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY!,
 });
+
+/** Detect trivial math questions like 2+2 */
+function isTrivialMath(q: string): boolean {
+  const short = q.length < 15;
+  const arithmetic = /\b\d+\s*[\+\-\*\/]\s*\d+\b/.test(q); // 2+2
+  return short || arithmetic;
+}
 
 /** allocate totals across distribution proportionally */
 function allocateByDistribution(
@@ -33,9 +41,20 @@ function allocateByDistribution(
   return allocated;
 }
 
+/** ensure minimum questions by repeating if needed */
+function ensureMinimumQuestions(subject: string, qs: any[], min = 30) {
+  if (qs.length >= min) return qs.slice(0, min);
+  let out = [...qs];
+  let i = 0;
+  while (out.length < min && qs.length > 0) {
+    out.push({ ...qs[i % qs.length], id: out.length + 1, subject });
+    i++;
+  }
+  return out;
+}
+
 /** parse questions robustly */
-function parseQuestionsFromContent(content: string, subject: string) {
-  const questions: any[] = [];
+function parseQuestionsFromContent(content: string) {
   if (!content || !content.trim()) return [];
 
   try {
@@ -44,7 +63,6 @@ function parseQuestionsFromContent(content: string, subject: string) {
     if (parsed && typeof parsed === "object") return [parsed];
   } catch {}
 
-  // JSON array substring
   const firstBracket = content.indexOf("[");
   const lastBracket = content.lastIndexOf("]");
   if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
@@ -54,12 +72,12 @@ function parseQuestionsFromContent(content: string, subject: string) {
     } catch {}
   }
 
-  // NDJSON / line by line fallback
   const lines = content
     .split(/\r?\n/)
     .map((l) => l.trim())
     .filter(Boolean);
 
+  const questions: any[] = [];
   for (const rawLine of lines) {
     try {
       const obj = JSON.parse(rawLine);
@@ -68,24 +86,6 @@ function parseQuestionsFromContent(content: string, subject: string) {
         continue;
       }
     } catch {}
-
-    const allObjMatches = [...rawLine.matchAll(/\{[\s\S]*?\}/g)];
-    for (const m of allObjMatches) {
-      try {
-        questions.push(JSON.parse(m[0]));
-      } catch {}
-    }
-  }
-
-  // ✅ If still nothing → fallback question
-  if (questions.length === 0) {
-    questions.push({
-      id: 1,
-      subject,
-      question: "No question generated. (Fallback)",
-      options: ["A", "B", "C", "D"],
-      correct: "A",
-    });
   }
 
   return questions;
@@ -119,8 +119,8 @@ export async function POST(req: Request) {
       IQ: 30,
     };
 
-    const TOTAL_DEFAULT_ALL = 20;
-    const TOTAL_DEFAULT_SINGLE = 20;
+    const TOTAL_DEFAULT_ALL = 30;
+    const TOTAL_DEFAULT_SINGLE = 30;
 
     let allQuestions: any[] = [];
 
@@ -129,40 +129,47 @@ export async function POST(req: Request) {
       const allocation = allocateByDistribution(baseDistribution, total);
 
       for (const [subj, count] of Object.entries(allocation)) {
-        const prompt = `Generate exactly ${count} multiple-choice questions for subject: "${subj}".
-Strict rules:
-- Return a JSON array only (one array with all objects).
-- Each object: { "id": number, "question": string, "options": ["..."], "correct": "..." }.
-- Options = exactly 4 unique, correct ∈ options.
-- No explanations, no extra text, only JSON.
-- Questions should be at Pakistani University admission test level (ECAT/MDCAT/NTS level). Content drawn from Class 11 & 12 textbooks.
-- Mix difficulty (easy/medium/hard) and ensure at least 25% hard conceptual questions across the set.`;
+        let parsed: any[] = [];
 
         try {
+          const prompt = `Generate exactly ${count} multiple-choice questions for subject: "${subj}".
+
+STRICT RULES:
+- Level: Pakistani University admission test (ECAT/MDCAT/NTS), Class 11 & 12 curriculum.
+- DO NOT include trivial math like 2+2, 3*4, or rote memory definitions.
+- Focus on: Calculus, Algebra, Trigonometry, Probability, Matrices, Differentiation, Integration, etc.
+- At least 25% must be "hard" — multi-step reasoning or conceptual.
+- Format: JSON array only, each object like:
+{
+  "id": 1,
+  "question": "What is the derivative of sin(x)?",
+  "options": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
+  "correct": "cos(x)",
+  "difficulty": "easy"
+}
+- No explanations, no text outside JSON.`;
+
           const response = await groq.chat.completions.create({
             model: "llama-3.1-8b-instant",
             messages: [{ role: "user", content: prompt }],
           });
 
           const raw = response?.choices?.[0]?.message?.content ?? "";
-          let parsed = parseQuestionsFromContent(raw, subj);
+          parsed = parseQuestionsFromContent(raw);
+        } catch (err) {
+          console.error("❌ Groq error for subject", subj, err);
+        }
 
-          // ✅ Always return at least one question
-          if (!parsed.length) {
-            parsed = [
-              {
-                id: 1,
-                subject: subj,
-                question: "No question generated. (Fallback)",
-                options: ["A", "B", "C", "D"],
-                correct: "A",
-              },
-            ];
-          }
+        // ✅ fallback
+        if (!parsed || parsed.length === 0) {
+          const stored = storedQuestions.find((q) => q.subject === subj);
+          parsed = stored ? stored.questions : [];
+        }
 
-          const startIndex = allQuestions.length;
-          const sanitized = parsed.map((q: any, i: number) => ({
-            id: startIndex + i + 1,
+        // ✅ sanitize + filter trivial math
+        let sanitized = parsed
+          .map((q: any, i: number) => ({
+            id: allQuestions.length + i + 1,
             subject: subj,
             question: q.question ?? "Missing question",
             options:
@@ -171,75 +178,66 @@ Strict rules:
                 : ["A", "B", "C", "D"],
             correct:
               q.correct && q.options?.includes(q.correct) ? q.correct : "A",
-          }));
+            difficulty: q.difficulty ?? "medium",
+          }))
+          .filter(
+            (q) =>
+              subj.toLowerCase() !== "mathematics" || !isTrivialMath(q.question)
+          );
 
-          allQuestions.push(...sanitized);
-        } catch (err) {
-          console.error("❌ Groq error for subject", subj, err);
-          allQuestions.push({
-            id: allQuestions.length + 1,
-            subject: subj,
-            question: "Error generating question for " + subj,
-            options: ["A", "B", "C", "D"],
-            correct: "A",
-          });
-        }
+        sanitized = ensureMinimumQuestions(subj, sanitized, count);
+        allQuestions.push(...sanitized);
       }
     } else {
       const total = clientTotal || TOTAL_DEFAULT_SINGLE;
-      const prompt = `Generate exactly ${total} multiple-choice questions for subject: "${subject}".
-Strict rules:
-- Return a JSON array only.
-- Each object: { "id": number, "question": string, "options": ["..."], "correct": "..." }.
-- Options = exactly 4 unique, correct ∈ options.
-- No explanations, no extra text, only JSON.
-- Questions should be at Pakistani University admission test level (ECAT/MDCAT/NTS level). Content drawn from Class 11 & 12 textbooks.
-- Mix difficulty (easy/medium/hard) and ensure at least 25% hard conceptual questions across the set.`;
+      let parsed: any[] = [];
 
       try {
+        const prompt = `Generate exactly ${total} multiple-choice questions for subject: "${subject}".
+Strict rules:
+- Return a JSON array only.
+- No trivial math (2+2, 3*4, etc).
+- Each object: { "id": number, "question": string, "options": ["..."], "correct": "...", "difficulty": "easy|medium|hard" }
+- Content must match Pakistani University admission test level (ECAT/MDCAT/NTS).`;
+
         const response = await groq.chat.completions.create({
           model: "llama-3.1-8b-instant",
           messages: [{ role: "user", content: prompt }],
         });
 
         const raw = response?.choices?.[0]?.message?.content ?? "";
-        let parsed = parseQuestionsFromContent(raw, subject);
-
-        if (!parsed.length) {
-          parsed = [
-            {
-              id: 1,
-              subject,
-              question: "No question generated. (Fallback)",
-              options: ["A", "B", "C", "D"],
-              correct: "A",
-            },
-          ];
-        }
-
-        allQuestions = parsed.map((q: any, i: number) => ({
-          id: i + 1,
-          subject,
-          question: q.question ?? "Missing question",
-          options:
-            Array.isArray(q.options) && q.options.length === 4
-              ? q.options
-              : ["A", "B", "C", "D"],
-          correct:
-            q.correct && q.options?.includes(q.correct) ? q.correct : "A",
-        }));
+        parsed = parseQuestionsFromContent(raw);
       } catch (err) {
         console.error("❌ Groq error single subject:", err);
-        allQuestions = [
-          {
-            id: 1,
-            subject,
-            question: "Error generating question for " + subject,
-            options: ["A", "B", "C", "D"],
-            correct: "A",
-          },
-        ];
       }
+
+      if (!parsed || parsed.length === 0) {
+        const stored = storedQuestions.find((q) => q.subject === subject);
+        parsed = stored ? stored.questions : [];
+      }
+
+      allQuestions = ensureMinimumQuestions(
+        subject,
+        parsed
+          .map((q: any, i: number) => ({
+            id: i + 1,
+            subject,
+            question: q.question ?? "Missing question",
+            options:
+              Array.isArray(q.options) && q.options.length === 4
+                ? q.options
+                : ["A", "B", "C", "D"],
+            correct:
+              q.correct && q.options?.includes(q.correct) ? q.correct : "A",
+            difficulty: q.difficulty ?? "medium",
+          }))
+          .filter(
+            (q) =>
+              subject.toLowerCase() !== "mathematics" ||
+              !isTrivialMath(q.question)
+          ),
+        total
+      );
     }
 
     return NextResponse.json({ subject, questions: allQuestions });

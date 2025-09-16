@@ -13,7 +13,7 @@ const page = () => {
         <div className="bg-gradient-to-r  p-3  sm:p-10  from-cyan-700 via-cyan-800 to-cyan-950 mb-0.5 ">
           <div className="justify-evenly flex gap-13 sm:gap-0 flex-col  lg:flex-row">
             <div className=" w-[100%]   lg:w-[40%] flex justify-center items-center">
-              <h1 className=" text-4xl sm:text-4xl  font-bold lg:text-4xl 2xl:text-6xl mt-15 sm:mt-0 w-[100%]  xl:w-[75%] ">
+              <h1 className=" text-4xl sm:text-4xl  font-bold lg:text-4xl 2xl:text-6xl mt-15 sm:mt-0 w-[100%]  xl:w-[75%]   ">
                 {univerisities[1].name}
               </h1>
             </div>
@@ -27,7 +27,7 @@ const page = () => {
           </div>
 
           <div className="border border-gray-200 p-4 my-[10vh] rounded-2xl">
-            <h1 className="text-4xl font-bold text-slate-100 text-center mb-4 tracking-wide">
+            <h1 className="text-4xl font-bold  text-center mb-4 ">
               💻 Why Choose FAST National University of Computer & Emerging
               Sciences?
             </h1>
