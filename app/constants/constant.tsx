@@ -112,7 +112,7 @@ export const univerisities = [
   },
   {
     name: ["Iqra University", "(IU)"],
-    img: "/Iqra.jpeg",
+    img: "/iqra.jpeg",
     text: "Iqra University’s admission test focuses on English, Mathematics, and Analytical Reasoning, ensuring students have the core academic foundation for business and tech disciplines.",
     route: "/IQRA",
     questions: 80,
