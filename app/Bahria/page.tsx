@@ -2,31 +2,31 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { nustInfo, univerisities } from "../constants/constant";
+import { bahriaInfo, univerisities } from "../constants/constant";
 import Link from "next/link";
 import { useLocalUniSubject } from "../constants/UseLocalUniSubject";
 
 const Page = () => {
   const [uniSubject, setUniSubject] = useLocalUniSubject();
-  const uni = univerisities[3]; // NUST
+  const uni = univerisities[4]; // Bahria
 
   return (
-    <div className="min-h-screen w-full bg-[#050510] text-[#E6F1FF] overflow-hidden flex flex-col items-center">
+    <div className="min-h-screen w-full bg-[#0A0F24] text-[#E0E7FF] overflow-hidden flex flex-col items-center">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative w-[95%] sm:w-[90%] xl:w-[80%] h-[70vh] overflow-hidden mt-10 rounded-3xl border-[3px] border-[#1B3C74]/70 shadow-[0_0_50px_rgba(56,189,248,0.2)]">
+      <section className="relative w-[95%] sm:w-[90%] xl:w-[80%] h-[70vh] overflow-hidden mt-10 rounded-3xl shadow-[0_0_60px_rgba(139,92,246,0.25)]">
         {/* Glowing Ellipses */}
         <div className="absolute inset-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.4, scale: 1 }}
+            animate={{ opacity: 0.5, scale: 1 }}
             transition={{ duration: 2 }}
-            className="absolute w-[600px] h-[600px] bg-[#3B82F6]/40 blur-[180px] top-[-100px] left-[-200px]"
+            className="absolute w-[600px] h-[600px] bg-[#8B5CF6]/40 blur-[160px] top-[-100px] left-[-150px]"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 0.3, scale: 1 }}
-            transition={{ duration: 2.5 }}
-            className="absolute w-[800px] h-[800px] bg-[#7C3AED]/30 blur-[200px] bottom-[-200px] right-[-250px]"
+            transition={{ duration: 2.3 }}
+            className="absolute w-[800px] h-[800px] bg-[#38BDF8]/30 blur-[200px] bottom-[-200px] right-[-200px]"
           />
         </div>
 
@@ -34,14 +34,14 @@ const Page = () => {
         <motion.img
           src={uni.img}
           alt={uni.name[0]}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover rounded-3xl"
           initial={{ scale: 1.1, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.4 }}
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/60 via-[#0A0F24]/80 to-[#050510]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0A0F24]/80 to-[#0A0F24]" />
 
         {/* Text Overlay */}
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
@@ -49,7 +49,7 @@ const Page = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-5xl sm:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#60A5FA] via-[#22D3EE] to-[#7C3AED] drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]"
+            className="text-5xl sm:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] via-[#6366F1] to-[#38BDF8] drop-shadow-[0_0_15px_rgba(139,92,246,0.6)]"
           >
             {uni.name[0]}
           </motion.h1>
@@ -58,7 +58,7 @@ const Page = () => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.3 }}
-            className="text-lg sm:text-xl text-[#E0F2FE] mt-4 max-w-[700px] leading-relaxed"
+            className="text-lg sm:text-xl text-[#C7D2FE] mt-4 max-w-[700px] leading-relaxed"
           >
             {uni.name[1]}
           </motion.p>
@@ -71,12 +71,12 @@ const Page = () => {
           >
             <Link href="/FAST/QUIZ">
               <motion.button
-                onClick={() => setUniSubject(3)}
+                onClick={() => setUniSubject(15)}
                 whileHover={{ scale: 1.07 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-3 rounded-full border-2 border-[#22D3EE] text-[#E6F1FF] font-semibold hover:bg-[#22D3EE] hover:text-black transition-all duration-300 shadow-[0_0_25px_rgba(56,189,248,0.5)]"
+                className="px-10 py-3 rounded-full border-2 border-[#8B5CF6] text-[#E0E7FF] font-semibold hover:bg-gradient-to-r hover:from-[#8B5CF6] hover:to-[#38BDF8] hover:text-white transition-all duration-300 shadow-[0_0_25px_rgba(139,92,246,0.4)]"
               >
-                Take the NUST Entry Test 🚀
+                Take the Bahria Entry Test 🚀
               </motion.button>
             </Link>
           </motion.div>
@@ -84,13 +84,13 @@ const Page = () => {
       </section>
 
       {/* ================= MAIN BODY ================= */}
-      <div className="w-[95%] sm:w-[90%] xl:w-[80%] my-10 border-[6px] border-[#1B3C74]/70 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(56,189,248,0.2)] bg-gradient-to-b from-[#050510] via-[#0A0F24] to-[#050510] py-16 px-6 sm:px-10 space-y-16">
+      <div className="w-[95%] sm:w-[90%] xl:w-[80%] my-10 border-2 border-[#8B5CF6]/70 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(139,92,246,0.2)] bg-gradient-to-b from-[#0A0F24] via-[#050510] to-[#0A0F24] py-16 px-6 sm:px-10 space-y-16">
         {/* Quick Info */}
         <div className="grid sm:grid-cols-3 gap-8">
           {[
-            { label: "Founded", value: "1991" },
-            { label: "Location", value: "Islamabad, Pakistan" },
-            { label: "Global Rank", value: "Top 350 QS Ranking" },
+            { label: "Founded", value: "2000" },
+            { label: "Location", value: "Karachi, Pakistan" },
+            { label: "Ranking", value: "Top Private University" },
           ].map((info, i) => (
             <motion.div
               key={i}
@@ -98,12 +98,12 @@ const Page = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="p-6 rounded-2xl bg-[#0A192F]/70 border-2 border-[#1B3C74]/80 text-center shadow-[0_0_25px_rgba(30,64,175,0.3)] hover:shadow-[0_0_40px_rgba(56,189,248,0.4)] transition-all duration-300"
+              className="p-6 rounded-2xl bg-[#0B1220]/70 border-2 border-[#38BDF8]/50 text-center shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_40px_rgba(56,189,248,0.4)] transition-all duration-300"
             >
-              <h3 className="text-[#38BDF8] font-semibold text-lg">
+              <h3 className="text-[#8B5CF6] font-semibold text-lg">
                 {info.label}
               </h3>
-              <p className="text-[#E6F1FF] text-xl font-bold mt-1">
+              <p className="text-[#E0E7FF] text-xl font-bold mt-1">
                 {info.value}
               </p>
             </motion.div>
@@ -116,77 +116,75 @@ const Page = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className="p-10 rounded-3xl border-2 border-[#1B3C74]/80 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(56,189,248,0.2)]"
+          className="p-10 rounded-3xl border-2 border-[#8B5CF6]/40 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(139,92,246,0.2)]"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 bg-gradient-to-r from-[#38BDF8] via-[#60A5FA] to-[#7C3AED] text-transparent bg-clip-text">
-            Why Choose NUST?
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 bg-gradient-to-r from-[#8B5CF6] via-[#6366F1] to-[#38BDF8] text-transparent bg-clip-text">
+            Why Choose Bahria University?
           </h2>
-          <p className="text-lg leading-relaxed text-[#D1E9FF]">
-            NUST is a globally recognized institution excelling in engineering,
-            IT, management, and sciences. It combines academic excellence with
-            real-world innovation. The university offers state-of-the-art
-            research facilities, global collaborations, and a diverse, vibrant
-            campus life that fosters leadership and critical thinking. With its
-            commitment to modern education and sustainable development, NUST is
-            the choice for future changemakers.
+          <p className="text-lg leading-relaxed text-[#C7D2FE]">
+            Bahria University is recognized as a top private university in
+            Pakistan, offering high-quality education, advanced research
+            opportunities, and a vibrant academic environment. With modern
+            campuses and strong industry connections, it nurtures talented
+            students to excel in leadership, technology, and innovation.
           </p>
         </motion.section>
 
-        {/* TEST INFORMATION */}
+        {/* TEST INFO */}
         <motion.section
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className="p-10 rounded-3xl border-2 border-[#1B3C74]/80 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(56,189,248,0.2)]"
+          className="p-10 rounded-3xl border-2 border-[#8B5CF6]/40 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(139,92,246,0.2)]"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-[#38BDF8] via-[#22D3EE] to-[#7C3AED] text-transparent bg-clip-text">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-[#8B5CF6] to-[#38BDF8] text-transparent bg-clip-text">
             Test Information
           </h2>
-          <div className="grid sm:grid-cols-2 gap-6 text-lg text-[#E6F1FF]">
+          <div className="grid sm:grid-cols-2 gap-6 text-lg text-[#E0E7FF]">
             <p>
-              <span className="font-semibold text-[#38BDF8]">
+              <span className="font-semibold text-[#8B5CF6]">
                 Total Duration:
               </span>{" "}
               {uni.time}
             </p>
             <p>
-              <span className="font-semibold text-[#38BDF8]">Questions:</span>{" "}
+              <span className="font-semibold text-[#8B5CF6]">Questions:</span>{" "}
               {uni.questions}
             </p>
             <p>
-              <span className="font-semibold text-[#38BDF8]">Negative:</span>{" "}
+              <span className="font-semibold text-[#8B5CF6]">Negative:</span>{" "}
               {uni.negative}
             </p>
             <p>
-              <span className="font-semibold text-[#38BDF8]">Calculator:</span>{" "}
+              <span className="font-semibold text-[#8B5CF6]">Calculator:</span>{" "}
               {uni.calculator}
             </p>
             <p className="col-span-2">
-              <span className="font-semibold text-[#38BDF8]">Sections:</span>{" "}
+              <span className="font-semibold text-[#8B5CF6]">Sections:</span>{" "}
               {uni.sections.join(", ")}
             </p>
             <p className="col-span-2">
-              <span className="font-semibold text-[#38BDF8]">Note:</span>{" "}
+              <span className="font-semibold text-[#8B5CF6]">Note:</span>{" "}
               {uni.note}
             </p>
           </div>
         </motion.section>
 
-        {/* TABLE */}
+        {/* TABLE SECTION */}
         <motion.section
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className="p-8 rounded-3xl border-2 border-[#1B3C74]/80 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(56,189,248,0.2)]"
+          className="p-8 rounded-3xl border-2 border-[#8B5CF6]/40 bg-[#0B1220]/80 shadow-[0_0_40px_rgba(139,92,246,0.2)]"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-[#38BDF8] via-[#60A5FA] to-[#7C3AED] text-transparent bg-clip-text">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-[#8B5CF6] to-[#38BDF8] text-transparent bg-clip-text">
             Section-wise Breakdown
           </h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-center border-collapse text-[#E6F1FF]">
-              <thead className="bg-[#1E293B]/70 text-[#38BDF8]">
+            <table className="w-full text-center border-collapse text-[#E0E7FF]">
+              <thead className="bg-[#1E293B]/70 text-[#C7D2FE]">
                 <tr>
                   {[
                     "Section",
@@ -197,7 +195,7 @@ const Page = () => {
                   ].map((head, i) => (
                     <th
                       key={i}
-                      className="px-4 py-3 border-b border-[#1B3C74]/70 font-semibold"
+                      className="px-4 py-3 border-b border-[#8B5CF6]/40 font-semibold"
                     >
                       {head}
                     </th>
@@ -205,27 +203,27 @@ const Page = () => {
                 </tr>
               </thead>
               <tbody>
-                {nustInfo.map((data, i) => (
+                {bahriaInfo.map((data, i) => (
                   <motion.tr
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="hover:bg-[#1B3C74]/40 transition-all duration-300"
+                    className="hover:bg-[#1E3A8A]/30 transition-all duration-300"
                   >
-                    <td className="px-4 py-3 border-b border-[#1B3C74]/70">
+                    <td className="px-4 py-3 border-b border-[#8B5CF6]/30">
                       {data.name}
                     </td>
-                    <td className="px-4 py-3 border-b border-[#1B3C74]/70">
+                    <td className="px-4 py-3 border-b border-[#8B5CF6]/30">
                       {data.questions}
                     </td>
-                    <td className="px-4 py-3 border-b border-[#1B3C74]/70">
+                    <td className="px-4 py-3 border-b border-[#8B5CF6]/30">
                       {data.time}
                     </td>
-                    <td className="px-4 py-3 border-b border-[#1B3C74]/70">
+                    <td className="px-4 py-3 border-b border-[#8B5CF6]/30">
                       {data.weightage}
                     </td>
-                    <td className="px-4 py-3 border-b border-[#1B3C74]/70">
+                    <td className="px-4 py-3 border-b border-[#8B5CF6]/30">
                       {data.negative}
                     </td>
                   </motion.tr>
@@ -237,10 +235,10 @@ const Page = () => {
           <div className="flex justify-center py-12">
             <Link href="/FAST/QUIZ">
               <motion.button
-                onClick={() => setUniSubject(3)}
+                onClick={() => setUniSubject(5)}
                 whileHover={{ scale: 1.07 }}
                 whileTap={{ scale: 0.95 }}
-                className="sm:px-20 sm:py-5 px-12 py-4 rounded-3xl border-2 border-[#38BDF8] text-[#E6F1FF] font-semibold hover:bg-[#38BDF8] hover:text-black transition duration-300 shadow-[0_0_30px_rgba(56,189,248,0.4)]"
+                className="sm:px-20 sm:py-5 px-12 py-4 rounded-3xl border-2 border-[#38BDF8] text-[#E0E7FF] font-semibold hover:bg-gradient-to-r hover:from-[#8B5CF6] hover:to-[#38BDF8] hover:text-white transition duration-300 shadow-[0_0_30px_rgba(139,92,246,0.4)]"
               >
                 Take the Intellect Trial 🧠
               </motion.button>
