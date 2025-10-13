@@ -61,7 +61,7 @@ const Page = () => {
             >
               <Link href="/FAST/QUIZ">
                 <motion.button
-                  onClick={() => setUniSubject(14)}
+                  onClick={() => setUniSubject(13)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 via-[#0FA3A7] to-[#0A2C34] hover:from-cyan-300 hover:to-[#083C42] text-white font-semibold tracking-wide shadow-[0_0_25px_rgba(0,255,255,0.4)] hover:shadow-[0_0_45px_rgba(0,255,255,0.7)] transition-all duration-300"
