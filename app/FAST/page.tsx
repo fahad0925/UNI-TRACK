@@ -9,7 +9,7 @@ import { useLocalUniSubject } from "../constants/UseLocalUniSubject";
 
 const Page = () => {
   const [uniSubject, setUniSubject] = useLocalUniSubject();
-  const uni = univerisities[1]; // FAST
+  const uni = univerisities[0]; // FAST
 
   const { scrollY } = useScroll();
   const yText = useTransform(scrollY, [0, 300], [0, -100]);

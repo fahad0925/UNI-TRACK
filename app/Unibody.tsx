@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+
 import { univerisities } from "./constants/constant";
 import Link from "next/link";
+import ChatFloat from "./componenets/ChatWidget";
 
 const MainPage = () => {
   return (
@@ -69,7 +71,7 @@ const MainPage = () => {
           {univerisities.map((uni, i) => (
             <div
               key={i}
-              className="relative flex flex-col bg-white/5 backdrop-blur-xl border-2 border-b-cyan-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/30 transition-all duration-500 group animate-cardEntrance"
+              className="relative flex flex-col bg-white/5 backdrop-blur-xl border-4 border-b-cyan-500 rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/30 transition-all duration-500 group animate-cardEntrance"
               style={{ animationDelay: `${i * 0.15}s` }}
             >
               {/* Border tracing animation */}
@@ -318,6 +320,7 @@ const MainPage = () => {
           animation: particle infinite ease-in-out;
         }
       `}</style>
+      <ChatFloat />
     </div>
   );
 };
